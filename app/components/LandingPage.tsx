@@ -5,43 +5,43 @@ import { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 
 const GithubButton = () => (
-  <motion.a
-    href="https://github.com/username/repo" // Replace with your repo URL
+  <a
+    href="https://github.com/username/react-exe" // Replace with your actual repo URL
     target="_blank"
     rel="noopener noreferrer"
-    className="fixed top-4 right-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 dark:bg-white/5 border border-gray-200/20 dark:border-white/10 backdrop-blur-md shadow-lg hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 group"
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    initial={{ opacity: 0, y: -20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
+    className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300"
   >
     <svg
-      className="w-5 h-5 text-gray-700 dark:text-white"
+      className="w-5 h-5 text-gray-900 dark:text-white"
       viewBox="0 0 24 24"
       fill="currentColor"
     >
       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
     </svg>
-    <span className="text-sm font-medium text-gray-700 dark:text-white">
+    <span className="text-sm font-medium text-gray-900 dark:text-white">
       Star on GitHub
     </span>
-    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-400/20 dark:bg-yellow-500/20">
-      <svg
-        className="w-3 h-3 text-yellow-600 dark:text-yellow-400"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-      </svg>
+    <div className="flex items-center justify-center min-w-[1.5rem] h-6 px-1.5 rounded-full bg-yellow-100 dark:bg-yellow-900">
+      <span className="text-xs font-semibold text-yellow-800 dark:text-yellow-100">
+        ★
+      </span>
     </div>
-    <motion.div
-      className="absolute inset-0 rounded-full bg-white/10 dark:bg-white/5"
-      initial={false}
-      transition={{ duration: 0.3 }}
-      whileHover={{ opacity: 1 }}
-    />
-  </motion.a>
+  </a>
+);
+
+const CodeBlock = () => (
+  <div className="max-w-lg mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
+    <div className="flex items-center gap-2 px-4 py-2 bg-gray-800">
+      <div className="flex gap-2">
+        <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+        <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+      </div>
+    </div>
+    <div className="p-4 font-mono text-sm text-white">
+      npm install react-exe
+    </div>
+  </div>
 );
 
 const LandingPage = () => {
@@ -135,11 +135,18 @@ const LandingPage = () => {
                   React EXE
                 </h1>
                 <p className="text-center text-gray-600 dark:text-gray-400 mt-4 text-lg">
-                  Transform your ideas into reality
+                  Execute React Components in Real-Time
                 </p>
+                <p className="text-center text-gray-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
+                  A powerful React component executor that lets you write,
+                  preview, and test React components in real-time. Perfect for
+                  prototyping, learning, and developing React applications with
+                  live feedback.
+                </p>
+                <CodeBlock />
               </motion.header>
 
-              <div className="flex flex-col md:flex-row h-[calc(100vh-12rem)] gap-8">
+              <div className="flex flex-col md:flex-row h-[calc(100vh-20rem)] gap-8">
                 {/* Left Section - Monaco Editor */}
                 <motion.div
                   initial={{ x: -100, opacity: 0 }}
