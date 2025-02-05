@@ -6,7 +6,7 @@ import { Editor } from "@monaco-editor/react";
 
 const GithubButton = () => (
   <a
-    href="https://github.com/username/react-exe" // Replace with your actual repo URL
+    href="https://github.com/vgulerianb/react-exe"
     target="_blank"
     rel="noopener noreferrer"
     className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300"
@@ -29,20 +29,51 @@ const GithubButton = () => (
   </a>
 );
 
-const CodeBlock = () => (
-  <div className="max-w-lg mx-auto mt-8 bg-gray-900 rounded-lg overflow-hidden">
-    <div className="flex items-center gap-2 px-4 py-2 bg-gray-800">
-      <div className="flex gap-2">
-        <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-        <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+const CodeBlock = () => {
+  const command = "npm install react-exe";
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(command);
+      // You could add a toast notification here if desired
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
+  return (
+    <div className="max-w-lg mx-auto mt-3 bg-gray-900 rounded-lg overflow-hidden">
+      <div className="flex items-center justify-between px-2 py-2 bg-gray-800">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+          <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+          <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+        </div>
+        <button
+          onClick={copyToClipboard}
+          className="flex items-center gap-2 px-2 py-1 text-xs text-gray-300 hover:text-white transition-colors duration-200"
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            />
+          </svg>
+          Copy
+        </button>
       </div>
+      <div className="p-3 font-mono text-sm text-white">{command}</div>
     </div>
-    <div className="p-4 font-mono text-sm text-white">
-      npm install react-exe
-    </div>
-  </div>
-);
+  );
+};
 
 const LandingPage = () => {
   const [inputText, setInputText] = useState("");
@@ -60,7 +91,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0F1C] text-gray-900 dark:text-white relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-[100dvh] md:max-h-[100dvh] max-w-[100dvw] bg-gray-50 dark:bg-[#0A0F1C] text-gray-900 dark:text-white relative overflow-x-hidden overflow-y-scroll md:overflow-hidden transition-colors duration-300">
       {/* GitHub Button */}
       <GithubButton />
 
@@ -73,55 +104,7 @@ const LandingPage = () => {
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-r from-sky-400/30 to-blue-300/30 dark:from-purple-500/30 dark:to-blue-500/30 rounded-full filter blur-[80px] animate-orb-1"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-r from-orange-300/30 to-yellow-300/30 dark:from-rose-500/30 dark:to-orange-500/30 rounded-full filter blur-[80px] animate-orb-2"></div>
 
-      <style>
-        {`
-          @keyframes orb-1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-100px, 50px) scale(1.1); }
-          }
-          @keyframes orb-2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(100px, -50px) scale(1.1); }
-          }
-          .animate-orb-1 {
-            animation: orb-1 15s ease-in-out infinite;
-          }
-          .animate-orb-2 {
-            animation: orb-2 15s ease-in-out infinite;
-          }
-          ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-          }
-          ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-          }
-          ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 0, 0, 0.15);
-          }
-          .dark ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-          }
-          .dark ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-          }
-          .dark ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-          }
-          .monaco-editor .margin, .monaco-editor-background {
-            background-color: transparent !important;
-          }
-          .monaco-editor {
-            padding-top: 8px;
-          }
-        `}
-      </style>
-
-      <div className="container mx-auto px-4 min-h-screen relative z-10">
+      <div className="container mx-auto px-4 min-h-[100dvh] relative z-10 flex flex-col">
         <AnimatePresence>
           {mounted && (
             <>
@@ -131,28 +114,23 @@ const LandingPage = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="py-8"
               >
-                <h1 className="text-4xl md:text-6xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
+                <h1 className="text-3xl pt-[32px] md:pt-0 md:text-5xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
                   React EXE
                 </h1>
-                <p className="text-center text-gray-600 dark:text-gray-400 mt-4 text-lg">
+                <p className="text-center text-gray-600 dark:text-gray-400 mt-3 text-lg">
                   Execute React Components in Real-Time
                 </p>
-                <p className="text-center text-gray-500 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
-                  A powerful React component executor that lets you write,
-                  preview, and test React components in real-time. Perfect for
-                  prototyping, learning, and developing React applications with
-                  live feedback.
-                </p>
+
                 <CodeBlock />
               </motion.header>
 
-              <div className="flex flex-col md:flex-row h-[calc(100vh-20rem)] gap-8">
+              <div className="flex flex-col md:flex-row h-full gap-6 pb-[16px] flex-1 min-h-full ">
                 {/* Left Section - Monaco Editor */}
                 <motion.div
                   initial={{ x: -100, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl"
+                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
                 >
                   <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
                     <div className="flex items-center gap-2 p-4 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
@@ -160,11 +138,6 @@ const LandingPage = () => {
                         <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                      </div>
-                      <div className="flex-1 text-start">
-                        <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
-                          Editor
-                        </span>
                       </div>
                     </div>
                     <div className="h-[calc(100%-3.5rem)]">
@@ -199,7 +172,7 @@ const LandingPage = () => {
                   initial={{ x: 100, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl"
+                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
                 >
                   <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
                     <div className="flex items-center gap-2 p-2 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
@@ -207,11 +180,6 @@ const LandingPage = () => {
                         <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                      </div>
-                      <div className="flex-1 text-start">
-                        <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
-                          Preview
-                        </span>
                       </div>
                     </div>
                     <div className="p-4 h-[calc(100%-3.5rem)] overflow-auto">
