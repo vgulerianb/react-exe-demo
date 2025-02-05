@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
@@ -53,7 +55,7 @@ const LandingPage = () => {
   const placeholderText =
     "// Write your code here...\n\nconst greeting = 'Hello, World!';\nconsole.log(greeting);";
 
-  const handleEditorChange = (value) => {
+  const handleEditorChange = (value: any) => {
     setInputText(value || "");
   };
 
@@ -130,7 +132,7 @@ const LandingPage = () => {
                 className="py-8"
               >
                 <h1 className="text-4xl md:text-6xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
-                  Code Editor
+                  React EXE
                 </h1>
                 <p className="text-center text-gray-600 dark:text-gray-400 mt-4 text-lg">
                   Transform your ideas into reality
@@ -152,9 +154,9 @@ const LandingPage = () => {
                         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                       </div>
-                      <div className="flex-1 text-center">
-                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                          input.js
+                      <div className="flex-1 text-start">
+                        <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
+                          Editor
                         </span>
                       </div>
                     </div>
@@ -170,8 +172,8 @@ const LandingPage = () => {
                           fontFamily: "monospace",
                           minimap: { enabled: false },
                           scrollbar: {
-                            vertical: "visible",
-                            horizontal: "visible",
+                            vertical: "hidden",
+                            horizontal: "hidden",
                           },
                           padding: { top: 16 },
                           lineNumbers: "on",
@@ -193,15 +195,15 @@ const LandingPage = () => {
                   className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl"
                 >
                   <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
-                    <div className="flex items-center gap-2 p-4 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
+                    <div className="flex items-center gap-2 p-2 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
                       <div className="flex gap-2">
                         <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                         <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                       </div>
-                      <div className="flex-1 text-center">
-                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                          preview.js
+                      <div className="flex-1 text-start">
+                        <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
+                          Preview
                         </span>
                       </div>
                     </div>
