@@ -1,9 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import * as framermotion from "framer-motion";
 import { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { SAMPLE_CODE } from "../constants";
+import { CodeExecutor } from "react-exe";
+import { motion, AnimatePresence } from "framer-motion";
 
 const GithubButton = () => (
   <a
@@ -78,11 +80,7 @@ const CodeBlock = () => {
 
 const LandingPage = () => {
   const [inputText, setInputText] = useState(SAMPLE_CODE);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [theme, setTheme] = useState("light");
 
   const placeholderText = "// Write your code here...";
 
@@ -102,6 +100,11 @@ const LandingPage = () => {
     });
   };
 
+  useEffect(() => {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    setTheme(prefersDarkScheme.matches ? "dark" : "light");
+  }, []);
+
   return (
     <div className="min-h-[100dvh] md:max-h-[100dvh] max-w-[100dvw] bg-gray-50 dark:bg-[#0A0F1C] text-gray-900 dark:text-white relative overflow-x-hidden overflow-y-scroll md:overflow-hidden transition-colors duration-300">
       {/* GitHub Button */}
@@ -118,96 +121,103 @@ const LandingPage = () => {
 
       <div className="container mx-auto px-4 min-h-[100dvh] relative z-10 flex flex-col">
         <AnimatePresence>
-          {mounted && (
-            <>
-              <motion.header
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="py-8"
+          <>
+            <motion.header
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="py-8"
+            >
+              <h1 className="text-3xl pt-[32px] md:pt-0 md:text-5xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
+                React EXE
+              </h1>
+              <p className="text-center text-gray-600 dark:text-gray-400 mt-3 text-lg">
+                Execute React Components in Real-Time
+              </p>
+
+              <CodeBlock />
+            </motion.header>
+
+            <div className="flex flex-col md:flex-row h-full gap-6 pb-[16px] flex-1 md:min-h-full md:max-h-[calc(100vh-120px)]">
+              {/* Left Section - Monaco Editor */}
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
               >
-                <h1 className="text-3xl pt-[32px] md:pt-0 md:text-5xl font-bold text-center bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
-                  React EXE
-                </h1>
-                <p className="text-center text-gray-600 dark:text-gray-400 mt-3 text-lg">
-                  Execute React Components in Real-Time
-                </p>
-
-                <CodeBlock />
-              </motion.header>
-
-              <div className="flex flex-col md:flex-row h-full gap-6 pb-[16px] flex-1 md:min-h-full md:max-h-[calc(100vh-120px)]">
-                {/* Left Section - Monaco Editor */}
-                <motion.div
-                  initial={{ x: -100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
-                >
-                  <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
-                    <div className="flex items-center gap-2 p-4 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
-                      <div className="flex gap-2">
-                        <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                        <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                      </div>
+                <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
+                  <div className="flex items-center gap-2 p-4 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                     </div>
-                    <div className="h-full md:h-[calc(100vh-320px)]">
-                      <Editor
-                        height="100%"
-                        defaultLanguage="javascript"
-                        defaultValue={placeholderText}
-                        theme={mounted ? "vs-light" : "vs-dark"}
-                        value={inputText}
-                        beforeMount={beforeMount}
-                        onChange={handleEditorChange}
-                        options={{
-                          fontSize: 14,
-                          fontFamily: "monospace",
-                          minimap: { enabled: false },
-                          "javascript.validate.enable": false,
-                          "typescript.validate.enable": false,
-                          padding: { top: 16 },
-                          lineNumbers: "on",
-                          glyphMargin: false,
-                          folding: false,
-                          lineDecorationsWidth: 16,
-                          lineNumbersMinChars: 3,
-                          scrollBeyondLastLine: false,
+                  </div>
+                  <div className="h-full md:h-[calc(100vh-320px)]">
+                    <Editor
+                      height="100%"
+                      defaultLanguage="javascript"
+                      defaultValue={placeholderText}
+                      theme={theme === "light" ? "vs-light" : "vs-dark"}
+                      value={inputText}
+                      beforeMount={beforeMount}
+                      onChange={handleEditorChange}
+                      options={{
+                        fontSize: 14,
+                        fontFamily: "monospace",
+                        minimap: { enabled: false },
+                        "javascript.validate.enable": false,
+                        "typescript.validate.enable": false,
+                        padding: { top: 16 },
+                        lineNumbers: "on",
+                        glyphMargin: false,
+                        folding: false,
+                        lineDecorationsWidth: 16,
+                        lineNumbersMinChars: 3,
+                        scrollBeyondLastLine: false,
+                      }}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right Section - Preview */}
+              <motion.div
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
+              >
+                <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg ">
+                  <div className="flex items-center gap-2 p-2 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02] min-h-[45px]">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                    </div>
+                  </div>
+                  <div className="p-4 h-auto overflow-auto">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="font-mono text-sm leading-relaxed  md:h-[calc(100vh-320px)]"
+                    >
+                      <CodeExecutor
+                        code={inputText}
+                        config={{
+                          dependencies: {
+                            "framer-motion": framermotion,
+                          },
                         }}
                       />
-                    </div>
+                    </motion.div>
                   </div>
-                </motion.div>
-
-                {/* Right Section - Preview */}
-                <motion.div
-                  initial={{ x: 100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="w-full md:w-1/2 rounded-2xl overflow-hidden backdrop-blur-2xl h-[400px] md:h-auto"
-                >
-                  <div className="bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl h-full shadow-lg">
-                    <div className="flex items-center gap-2 p-2 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.02]">
-                      <div className="flex gap-2">
-                        <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                        <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                      </div>
-                    </div>
-                    <div className="p-4 h-[calc(100%-3.5rem)] overflow-auto">
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="font-mono text-sm leading-relaxed"
-                      ></motion.div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </>
-          )}
+                </div>
+              </motion.div>
+            </div>
+          </>
         </AnimatePresence>
       </div>
     </div>
