@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
+import { SAMPLE_CODE } from "../constants";
 
 const GithubButton = () => (
   <a
@@ -76,18 +77,29 @@ const CodeBlock = () => {
 };
 
 const LandingPage = () => {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState(SAMPLE_CODE);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const placeholderText =
-    "// Write your code here...\n\nconst greeting = 'Hello, World!';\nconsole.log(greeting);";
+  const placeholderText = "// Write your code here...";
 
   const handleEditorChange = (value: any) => {
     setInputText(value || "");
+  };
+
+  const beforeMount = (monaco: any) => {
+    // Disable syntax validation for JavaScript/TypeScript
+    monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: true,
+    });
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: true,
+    });
   };
 
   return (
@@ -124,7 +136,7 @@ const LandingPage = () => {
                 <CodeBlock />
               </motion.header>
 
-              <div className="flex flex-col md:flex-row h-full gap-6 pb-[16px] flex-1 min-h-full ">
+              <div className="flex flex-col md:flex-row h-full gap-6 pb-[16px] flex-1 md:min-h-full md:max-h-[calc(100vh-120px)]">
                 {/* Left Section - Monaco Editor */}
                 <motion.div
                   initial={{ x: -100, opacity: 0 }}
@@ -140,27 +152,28 @@ const LandingPage = () => {
                         <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                       </div>
                     </div>
-                    <div className="h-[calc(100%-3.5rem)]">
+                    <div className="h-full md:h-[calc(100vh-320px)]">
                       <Editor
                         height="100%"
                         defaultLanguage="javascript"
                         defaultValue={placeholderText}
                         theme={mounted ? "vs-light" : "vs-dark"}
+                        value={inputText}
+                        beforeMount={beforeMount}
                         onChange={handleEditorChange}
                         options={{
                           fontSize: 14,
                           fontFamily: "monospace",
                           minimap: { enabled: false },
-                          scrollbar: {
-                            vertical: "hidden",
-                            horizontal: "hidden",
-                          },
+                          "javascript.validate.enable": false,
+                          "typescript.validate.enable": false,
                           padding: { top: 16 },
                           lineNumbers: "on",
                           glyphMargin: false,
                           folding: false,
-                          lineDecorationsWidth: 0,
+                          lineDecorationsWidth: 16,
                           lineNumbersMinChars: 3,
+                          scrollBeyondLastLine: false,
                         }}
                       />
                     </div>
@@ -188,13 +201,7 @@ const LandingPage = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
                         className="font-mono text-sm leading-relaxed"
-                      >
-                        {inputText || (
-                          <span className="text-gray-400 dark:text-gray-500">
-                            {placeholderText}
-                          </span>
-                        )}
-                      </motion.div>
+                      ></motion.div>
                     </div>
                   </div>
                 </motion.div>
