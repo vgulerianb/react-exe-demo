@@ -48,32 +48,12 @@ const MultiFileEditor = ({ initialFiles = MULTI_FILE_SAMPLE }) => {
   const updateFileContent = (value: any) => {
     const newFiles = [...files];
     newFiles[activeFile].content = value || "";
+    //  Re-render the editor to reflect the changes, component is intentionally not re-rendered for better performance
+    setIsEditorReady(false);
+    setTimeout(() => {
+      setIsEditorReady(true);
+    });
     setFiles(newFiles);
-  };
-
-  const confirmNewFile = () => {
-    if (newFileName.trim() === "") return;
-
-    // Add extension if not provided
-    let fileName = newFileName;
-    if (!fileName.includes(".")) {
-      fileName = `${fileName}.jsx`;
-    }
-
-    // Check if file already exists
-    if (files.some((file) => file.name === fileName)) {
-      alert(`File '${fileName}' already exists.`);
-      return;
-    }
-
-    const newFiles = [
-      ...files,
-      { name: fileName, content: "// Write your code here", isEntry: false },
-    ];
-    setFiles(newFiles);
-    setActiveFile(newFiles.length - 1);
-    setNewFileName("");
-    setIsCreatingFile(false);
   };
 
   const setEntryFile = (index: number) => {
