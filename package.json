@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.3.1",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-exe": "^1.0.9"
+    "react-exe": "^1.0.11"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
